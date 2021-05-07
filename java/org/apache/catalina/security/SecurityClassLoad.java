@@ -197,6 +197,7 @@ public final class SecurityClassLoad {
         loader.loadClass(basePackage + "util.security.PrivilegedSetTccl");
     }
 
+    //加载内部类
     private static final void loadAnonymousInnerClasses(ClassLoader loader, String enclosingClass) {
         try {
             for (int i = 1;; i++) {

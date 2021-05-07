@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>org.apache.catalina.Valve</OriginalElement>
+  <nodes>
+    <node x="268.75" y="264.0">org.apache.catalina.valves.JDBCAccessLogValve</node>
+    <node x="2723.825" y="376.0">org.apache.catalina.authenticator.SpnegoAuthenticator</node>
+    <node x="0.0" y="264.0">org.apache.catalina.valves.AbstractAccessLogValve</node>
+    <node x="2020.075" y="0.0">org.apache.catalina.Valve</node>
+    <node x="686.7499999999999" y="264.0">org.apache.catalina.valves.SemaphoreValve</node>
+    <node x="2202.7944444444447" y="376.0">org.apache.catalina.authenticator.DigestAuthenticator</node>
+    <node x="1081.75" y="264.0">org.apache.catalina.core.StandardContextValve</node>
+    <node x="1964.75" y="264.0">org.apache.catalina.valves.LoadBalancerDrainingValve</node>
+    <node x="1468.75" y="264.0">org.apache.catalina.valves.CrawlerSessionManagerValve</node>
+    <node x="31.0" y="376.0">org.apache.catalina.valves.AccessLogValve</node>
+    <node x="2414.75" y="264.0">org.apache.catalina.ha.session.JvmRouteBinderValve</node>
+    <node x="864.7499999999999" y="264.0">org.apache.catalina.core.StandardEngineValve</node>
+    <node x="769.0305555555555" y="376.0">org.apache.catalina.valves.RemoteCIDRValve</node>
+    <node x="1993.7944444444445" y="376.0">org.apache.catalina.authenticator.BasicAuthenticator</node>
+    <node x="1436.075" y="102.0">org.apache.catalina.valves.ValveBase</node>
+    <node x="0.0" y="478.0">org.apache.catalina.valves.ExtendedAccessLogValve</node>
+    <node x="280.07500000000005" y="376.0">org.apache.catalina.valves.RemoteHostValve</node>
+    <node x="149.95000000000005" y="102.0">org.apache.catalina.AccessLog</node>
+    <node x="1306.75" y="264.0">org.apache.catalina.valves.rewrite.RewriteValve</node>
+    <node x="1739.75" y="264.0">org.apache.catalina.core.StandardWrapperValve</node>
+    <node x="2824.75" y="264.0">org.apache.catalina.authenticator.AuthenticatorBase</node>
+    <node x="2885.5" y="102.0">org.apache.catalina.Authenticator</node>
+    <node x="2631.75" y="264.0">org.apache.catalina.ha.tcp.ReplicationValve</node>
+    <node x="477.75" y="264.0">org.apache.catalina.valves.RequestFilterValve</node>
+    <node x="3365.825" y="376.0">org.apache.catalina.authenticator.FormAuthenticator</node>
+    <node x="2940.825" y="376.0">org.apache.catalina.authenticator.SSLAuthenticator</node>
+    <node x="2600.575" y="102.0">org.apache.catalina.ha.ClusterValve</node>
+    <node x="3133.825" y="376.0">org.apache.catalina.authenticator.NonLoginAuthenticator</node>
+    <node x="0.0" y="575.0">org.apache.catalina.Pipeline</node>
+    <node x="2228.75" y="264.0">org.apache.catalina.valves.PersistentValve</node>
+    <node x="496.4611111111112" y="376.0">org.apache.catalina.valves.RemoteAddrValve</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="org.apache.catalina.valves.RemoteAddrValve" target="org.apache.catalina.valves.RequestFilterValve">
+      <point x="0.0" y="-26.0" />
+      <point x="579.4611111111112" y="356.0" />
+      <point x="572.25" y="356.0" />
+      <point x="0.0" y="26.0" />
+    </edge>
+    <edge source="org.apache.catalina.ha.session.JvmRouteBinderValve" target="org.apache.catalina.valves.ValveBase">
+      <point x="-49.25" y="-26.0" />
+      <point x="2464.0" y="204.0" />
+      <point x="1533.825" y="204.0" />
+      <point x="38.25" y="26.0" />
+    </edge>
+    <edge source="org.apache.catalina.valves.PersistentValve" target="org.apache.catalina.valves.ValveBase">
+      <point x="0.0" y="-26.0" />
+      <point x="2311.75" y="214.0" />
+      <point x="1525.325" y="214.0" />
+      <point x="29.75" y="26.0" />
+    </edge>
+    <edge source="org.apache.catalina.valves.ValveBase" target="org.apache.catalina.Valve">
+      <point x="0.0" y="-26.0" />
+      <point x="1495.575" y="77.0" />
+      <point x="2041.825" y="77.0" />
+      <point x="-21.75" y="26.0" />
+    </edge>
+    <edge source="org.apache.catalina.authenticator.BasicAuthenticator" target="org.apache.catalina.authenticator.AuthenticatorBase">
+      <point x="0.0" y="-26.0" />
+      <point x="2088.2944444444447" y="336.0" />
+      <point x="2839.8333333333335" y="336.0" />
+      <point x="-75.41666666666652" y="26.0" />
+    </edge>
+    <edge source="org.apache.catalina.valves.AccessLogValve" target="org.apache.catalina.valves.AbstractAccessLogValve">
+      <point x="0.0" y="-26.0" />
+      <point x="0.0" y="26.0" />
+    </edge>
+    <edge source="org.apache.catalina.authenticator.SpnegoAuthenticator" target="org.apache.catalina.authenticator.AuthenticatorBase">
+      <point x="0.0" y="-26.0" />
+      <point x="2822.325" y="356.0" />
+      <point x="2900.1666666666665" y="356.0" />
+      <point x="-15.083333333333485" y="26.0" />
+    </edge>
+    <edge source="org.apache.catalina.valves.AbstractAccessLogValve" target="org.apache.catalina.valves.ValveBase">
+      <point x="55.0" y="-26.0" />
+      <point x="165.0" y="184.0" />
+      <point x="1440.325" y="184.0" />
+      <point x="-55.25" y="26.0" />
+    </edge>
+    <edge source="org.apache.catalina.ha.tcp.ReplicationValve" target="org.apache.catalina.ha.ClusterValve">
+      <point x="43.25" y="-26.0" />
+      <point x="2761.5" y="244.0" />
+      <point x="2707.075" y="244.0" />
+      <point x="35.5" y="26.0" />
+    </edge>
+    <edge source="org.apache.catalina.valves.RequestFilterValve" target="org.apache.catalina.valves.ValveBase">
+      <point x="0.0" y="-26.0" />
+      <point x="572.25" y="204.0" />
+      <point x="1457.325" y="204.0" />
+      <point x="-38.25" y="26.0" />
+    </edge>
+    <edge source="org.apache.catalina.valves.RemoteCIDRValve" target="org.apache.catalina.valves.RequestFilterValve">
+      <point x="0.0" y="-26.0" />
+      <point x="852.0305555555555" y="356.0" />
+      <point x="635.25" y="356.0" />
+      <point x="63.0" y="26.0" />
+    </edge>
+    <edge source="org.apache.catalina.core.StandardWrapperValve" target="org.apache.catalina.valves.ValveBase">
+      <point x="0.0" y="-26.0" />
+      <point x="1842.25" y="234.0" />
+      <point x="1508.325" y="234.0" />
+      <point x="12.75" y="26.0" />
+    </edge>
+    <edge source="org.apache.catalina.authenticator.AuthenticatorBase" target="org.apache.catalina.Authenticator">
+      <point x="45.25" y="-26.0" />
+      <point x="0.0" y="26.0" />
+    </edge>
+    <edge source="org.apache.catalina.valves.JDBCAccessLogValve" target="org.apache.catalina.AccessLog">
+      <point x="-47.25" y="-26.0" />
+      <point x="316.0" y="174.0" />
+      <point x="239.20000000000005" y="174.0" />
+      <point x="29.75" y="26.0" />
+    </edge>
+    <edge source="org.apache.catalina.valves.ExtendedAccessLogValve" target="org.apache.catalina.valves.AccessLogValve">
+      <point x="0.0" y="-26.0" />
+      <point x="0.0" y="26.0" />
+    </edge>
+    <edge source="org.apache.catalina.core.StandardEngineValve" target="org.apache.catalina.valves.ValveBase">
+      <point x="1.1368683772161603E-13" y="-26.0" />
+      <point x="963.25" y="224.0" />
+      <point x="1474.325" y="224.0" />
+      <point x="-21.25" y="26.0" />
+    </edge>
+    <edge source="org.apache.catalina.authenticator.NonLoginAuthenticator" target="org.apache.catalina.authenticator.AuthenticatorBase">
+      <point x="0.0" y="-26.0" />
+      <point x="3239.825" y="346.0" />
+      <point x="2960.5" y="346.0" />
+      <point x="45.25" y="26.0" />
+    </edge>
+    <edge source="org.apache.catalina.valves.JDBCAccessLogValve" target="org.apache.catalina.valves.ValveBase">
+      <point x="47.25" y="-26.0" />
+      <point x="410.5" y="194.0" />
+      <point x="1448.825" y="194.0" />
+      <point x="-46.75" y="26.0" />
+    </edge>
+    <edge source="org.apache.catalina.authenticator.AuthenticatorBase" target="org.apache.catalina.valves.ValveBase">
+      <point x="-45.25" y="-26.0" />
+      <point x="2870.0" y="184.0" />
+      <point x="1550.825" y="184.0" />
+      <point x="55.25" y="26.0" />
+    </edge>
+    <edge source="org.apache.catalina.authenticator.DigestAuthenticator" target="org.apache.catalina.authenticator.AuthenticatorBase">
+      <point x="0.0" y="-26.0" />
+      <point x="2301.2944444444447" y="346.0" />
+      <point x="2870.0" y="346.0" />
+      <point x="-45.25" y="26.0" />
+    </edge>
+    <edge source="org.apache.catalina.authenticator.FormAuthenticator" target="org.apache.catalina.authenticator.AuthenticatorBase">
+      <point x="0.0" y="-26.0" />
+      <point x="3456.325" y="336.0" />
+      <point x="2990.6666666666665" y="336.0" />
+      <point x="75.41666666666652" y="26.0" />
+    </edge>
+    <edge source="org.apache.catalina.ha.tcp.ReplicationValve" target="org.apache.catalina.valves.ValveBase">
+      <point x="-43.25" y="-26.0" />
+      <point x="2675.0" y="194.0" />
+      <point x="1542.325" y="194.0" />
+      <point x="46.75" y="26.0" />
+    </edge>
+    <edge source="org.apache.catalina.ha.session.JvmRouteBinderValve" target="org.apache.catalina.ha.ClusterValve">
+      <point x="49.25" y="-26.0" />
+      <point x="2562.5" y="244.0" />
+      <point x="2636.075" y="244.0" />
+      <point x="-35.5" y="26.0" />
+    </edge>
+    <edge source="org.apache.catalina.valves.SemaphoreValve" target="org.apache.catalina.valves.ValveBase">
+      <point x="0.0" y="-26.0" />
+      <point x="765.7499999999999" y="214.0" />
+      <point x="1465.825" y="214.0" />
+      <point x="-29.75" y="26.0" />
+    </edge>
+    <edge source="org.apache.catalina.valves.AbstractAccessLogValve" target="org.apache.catalina.AccessLog">
+      <point x="-55.0" y="-26.0" />
+      <point x="55.0" y="174.0" />
+      <point x="179.70000000000005" y="174.0" />
+      <point x="-29.75" y="26.0" />
+    </edge>
+    <edge source="org.apache.catalina.valves.rewrite.RewriteValve" target="org.apache.catalina.valves.ValveBase">
+      <point x="0.0" y="-26.0" />
+      <point x="1377.75" y="244.0" />
+      <point x="1491.325" y="244.0" />
+      <point x="-4.25" y="26.0" />
+    </edge>
+    <edge source="org.apache.catalina.valves.CrawlerSessionManagerValve" target="org.apache.catalina.valves.ValveBase">
+      <point x="0.0" y="-26.0" />
+      <point x="1594.25" y="244.0" />
+      <point x="1499.825" y="244.0" />
+      <point x="4.25" y="26.0" />
+    </edge>
+    <edge source="org.apache.catalina.authenticator.SSLAuthenticator" target="org.apache.catalina.authenticator.AuthenticatorBase">
+      <point x="0.0" y="-26.0" />
+      <point x="3027.325" y="356.0" />
+      <point x="2930.3333333333335" y="356.0" />
+      <point x="15.083333333333485" y="26.0" />
+    </edge>
+    <edge source="org.apache.catalina.core.StandardContextValve" target="org.apache.catalina.valves.ValveBase">
+      <point x="0.0" y="-26.0" />
+      <point x="1184.25" y="234.0" />
+      <point x="1482.825" y="234.0" />
+      <point x="-12.75" y="26.0" />
+    </edge>
+    <edge source="org.apache.catalina.valves.LoadBalancerDrainingValve" target="org.apache.catalina.valves.ValveBase">
+      <point x="0.0" y="-26.0" />
+      <point x="2086.75" y="224.0" />
+      <point x="1516.825" y="224.0" />
+      <point x="21.25" y="26.0" />
+    </edge>
+    <edge source="org.apache.catalina.valves.RemoteHostValve" target="org.apache.catalina.valves.RequestFilterValve">
+      <point x="0.0" y="-26.0" />
+      <point x="363.07500000000005" y="356.0" />
+      <point x="509.25" y="356.0" />
+      <point x="-63.0" y="26.0" />
+    </edge>
+    <edge source="org.apache.catalina.ha.ClusterValve" target="org.apache.catalina.Valve">
+      <point x="0.0" y="-26.0" />
+      <point x="2671.575" y="77.0" />
+      <point x="2085.325" y="77.0" />
+      <point x="21.75" y="26.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="0.3173535183627698" x="1773.5" y="313.5" />
+  <SelectedNodes>
+    <node>org.apache.catalina.Valve</node>
+  </SelectedNodes>
+  <Categories />
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+

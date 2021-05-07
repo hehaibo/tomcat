@@ -233,6 +233,8 @@ public final class ClassLoaderFactory {
                     @Override
                     public URLClassLoader run() {
                         if (parent == null)
+                        	//URLClassLoader的这个构造函数默认的 父类加载加载为，sun.misc.Launcher$AppClassLoader
+                        	//见ClassLoader的默认构造函数
                             return new URLClassLoader(array);
                         else
                             return new URLClassLoader(array, parent);

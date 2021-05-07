@@ -67,6 +67,7 @@ public class StandardHost extends ContainerBase implements Host {
     public StandardHost() {
 
         super();
+        //设置基础阀门
         pipeline.setBasic(new StandardHostValve());
 
     }
@@ -815,9 +816,11 @@ public class StandardHost extends ContainerBase implements Host {
     protected synchronized void startInternal() throws LifecycleException {
 
         // Set error report valve
+    	//设置错误报告阀门 默认 ErrorReportValve
         String errorValve = getErrorReportValveClass();
         if ((errorValve != null) && (!errorValve.equals(""))) {
             try {
+            	//如果已经找到 ErrorReportValve 阀门，则中断
                 boolean found = false;
                 Valve[] valves = getPipeline().getValves();
                 for (Valve valve : valves) {
@@ -826,6 +829,8 @@ public class StandardHost extends ContainerBase implements Host {
                         break;
                     }
                 }
+                //没有 ErrorReportValve 则 创建一个 ErrorReportValve ，并且添加到 Pipeline 中，在basic之前
+                // 默认情况下，first valve 是 AccessLogValve，basic 是 StandardHostValve
                 if(!found) {
                     Valve valve =
                         (Valve) Class.forName(errorValve).getConstructor().newInstance();
@@ -838,6 +843,7 @@ public class StandardHost extends ContainerBase implements Host {
                         errorValve), t);
             }
         }
+        //调用父类完成统一到启动
         super.startInternal();
     }
 

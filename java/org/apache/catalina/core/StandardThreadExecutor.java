@@ -35,11 +35,13 @@ public class StandardThreadExecutor extends LifecycleMBeanBase
     // ---------------------------------------------- Properties
     /**
      * Default thread priority
+     * 默认线程的优先级
      */
     protected int threadPriority = Thread.NORM_PRIORITY;
 
     /**
      * Run threads in daemon or non-daemon state
+     * 后台守护线程
      */
     protected boolean daemon = true;
 
@@ -80,6 +82,7 @@ public class StandardThreadExecutor extends LifecycleMBeanBase
 
     /**
      * The maximum number of elements that can queue up before we reject them
+     * 最大的队列大小
      */
     protected int maxQueueSize = Integer.MAX_VALUE;
 

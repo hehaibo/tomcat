@@ -129,6 +129,7 @@ public abstract class AbstractEndpoint<S> {
         UNBOUND, BOUND_ON_INIT, BOUND_ON_START, SOCKET_CLOSED_ON_STOP
     }
 
+    //接收器
     public abstract static class Acceptor implements Runnable {
         public enum AcceptorState {
             NEW, RUNNING, PAUSED, ENDED
@@ -179,6 +180,7 @@ public abstract class AbstractEndpoint<S> {
 
     /**
      * counter for nr of connections handled by an endpoint
+     * 连接控制器，负责控制最大的连接数
      */
     private volatile LimitLatch connectionLimitLatch = null;
 

@@ -710,6 +710,7 @@ public abstract class ContainerBase extends LifecycleMBeanBase
      *  child Containers
      */
     @Override
+    //添加子容器
     public void addChild(Container child) {
         if (Globals.IS_SECURITY_ENABLED) {
             PrivilegedAction<Void> dp =
@@ -729,6 +730,7 @@ public abstract class ContainerBase extends LifecycleMBeanBase
                 throw new IllegalArgumentException("addChild:  Child name '" +
                                                    child.getName() +
                                                    "' is not unique");
+            //设置父容器为当前对象 StandardEngine <- StandardHost <- StandardContext <- StandardWrapper
             child.setParent(this);  // May throw IAE
             children.put(child.getName(), child);
         }
@@ -740,6 +742,7 @@ public abstract class ContainerBase extends LifecycleMBeanBase
             if ((getState().isAvailable() ||
                     LifecycleState.STARTING_PREP.equals(getState())) &&
                     startChildren) {
+            	//启动子节点
                 child.start();
             }
         } catch (LifecycleException e) {
@@ -757,6 +760,7 @@ public abstract class ContainerBase extends LifecycleMBeanBase
      * @param listener The listener to add
      */
     @Override
+    //添加容器监听器
     public void addContainerListener(ContainerListener listener) {
         listeners.add(listener);
     }
@@ -885,6 +889,8 @@ public abstract class ContainerBase extends LifecycleMBeanBase
     @Override
     protected void initInternal() throws LifecycleException {
         BlockingQueue<Runnable> startStopQueue = new LinkedBlockingQueue<>();
+        //初始化启动停止线程池
+        //在 StandardHost 启动 StandardHost 时，会获取 startStopExecutor 来启动StandardContext
         startStopExecutor = new ThreadPoolExecutor(
                 getStartStopThreadsInternal(),
                 getStartStopThreadsInternal(), 10, TimeUnit.SECONDS,
@@ -912,12 +918,14 @@ public abstract class ContainerBase extends LifecycleMBeanBase
         if (cluster instanceof Lifecycle) {
             ((Lifecycle) cluster).start();
         }
+        //安全域启动
         Realm realm = getRealmInternal();
         if (realm instanceof Lifecycle) {
             ((Lifecycle) realm).start();
         }
 
         // Start our child containers, if any
+        //线程池并发启动子容器
         Container children[] = findChildren();
         List<Future<Void>> results = new ArrayList<>();
         for (Container child : children) {
@@ -926,6 +934,7 @@ public abstract class ContainerBase extends LifecycleMBeanBase
 
         MultiThrowable multiThrowable = null;
 
+        //阻塞线程，等待子容器启动完成
         for (Future<Void> result : results) {
             try {
                 result.get();
@@ -949,9 +958,11 @@ public abstract class ContainerBase extends LifecycleMBeanBase
         }
 
 
+        //设置状态为启动中状态，如果状态对应有生命周期事件，则会调用监听器
         setState(LifecycleState.STARTING);
 
         // Start our thread
+        //启动 ContainerBackgroundProcessor线程 比如StandardHost 会不断的扫描webapps目录
         threadStart();
     }
 
@@ -1273,6 +1284,8 @@ public abstract class ContainerBase extends LifecycleMBeanBase
     /**
      * Start the background thread that will periodically check for
      * session timeouts.
+     * 
+     * 启动容器后台线程，比如StandardHost 会不断的扫描webapps目录
      */
     protected void threadStart() {
 

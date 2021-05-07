@@ -154,6 +154,7 @@ public class NioEndpoint extends AbstractJsseEndpoint<NioChannel> {
 
     /**
      * The socket poller.
+     * 可以将其看成是NIO中Selector，负责监控Channel的状态
      */
     private Poller[] pollers = null;
     private AtomicInteger pollerRotater = new AtomicInteger(0);
@@ -222,11 +223,13 @@ public class NioEndpoint extends AbstractJsseEndpoint<NioChannel> {
             serverSock.socket().bind(addr,getAcceptCount());
         } else {
             // Retrieve the channel provided by the OS
+        	//检索操作系统提供的通道
             Channel ic = System.inheritedChannel();
             if (ic instanceof ServerSocketChannel) {
                 serverSock = (ServerSocketChannel) ic;
             }
             if (serverSock == null) {
+            	//连接器配置为使用继承通道时没有继承通道
                 throw new IllegalArgumentException(sm.getString("endpoint.init.bind.inherited"));
             }
         }
@@ -453,6 +456,7 @@ public class NioEndpoint extends AbstractJsseEndpoint<NioChannel> {
     /**
      * The background thread that listens for incoming TCP/IP connections and
      * hands them off to an appropriate processor.
+     * 负责接收新的连接，然后返回一个Channel对象给Poller
      */
     protected class Acceptor extends AbstractEndpoint.Acceptor {
 
@@ -646,6 +650,7 @@ public class NioEndpoint extends AbstractJsseEndpoint<NioChannel> {
 
     /**
      * Poller class.
+     * 可以将其看成是NIO中Selector，负责监控Channel的状态
      */
     public class Poller implements Runnable {
 
@@ -1576,6 +1581,7 @@ public class NioEndpoint extends AbstractJsseEndpoint<NioChannel> {
     /**
      * This class is the equivalent of the Worker, but will simply use in an
      * external Executor thread pool.
+     * 可以看成是一个被封装的任务类
      */
     protected class SocketProcessor extends SocketProcessorBase<NioChannel> {
 

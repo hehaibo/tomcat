@@ -28,12 +28,17 @@ esac
 # resolve links - $0 may be a softlink
 PRG="$0"
 
+# 判断是否为软连接
 while [ -h "$PRG" ] ; do
+  # 如果是软连接,输出中含有lin -> source的字符串
   ls=`ls -ld "$PRG"`
+  # 模式匹配出源文件的路径
   link=`expr "$ls" : '.*-> \(.*\)$'`
+  # 正则匹配 /.* 这里expr会输出匹配个数,如果不为0,则说明$link包含目录
   if expr "$link" : '/.*' > /dev/null; then
     PRG="$link"
   else
+    # 当不包含目录,说明软连接和源文件在同一目录
     PRG=`dirname "$PRG"`/"$link"
   fi
 done

@@ -19,13 +19,14 @@ package org.apache.catalina;
 /**
  * <p>Decoupling interface which specifies that an implementing class is
  * associated with at most one <strong>Container</strong> instance.</p>
- *
+ * 包含容器对象的接口，主要实现 ValveBase、Pipeline
  * @author Craig R. McClanahan
  * @author Peter Donald
  */
 public interface Contained {
 
     /**
+     * 获得关联的容器对象
      * Get the {@link Container} with which this instance is associated.
      *
      * @return The Container with which this instance is associated or
@@ -35,6 +36,7 @@ public interface Contained {
 
 
     /**
+     * 设置关联容器对象
      * Set the <code>Container</code> with which this instance is associated.
      *
      * @param container The Container instance with which this instance is to

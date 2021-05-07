@@ -159,6 +159,7 @@ public class StandardContext extends ContainerBase
     public StandardContext() {
 
         super();
+        //设置基础阀门
         pipeline.setBasic(new StandardContextValve());
         broadcaster = new NotificationBroadcasterSupport();
         // Set defaults
@@ -4956,6 +4957,7 @@ public class StandardContext extends ContainerBase
         }
 
         if (getLoader() == null) {
+        	//初始化webapp类加载器
             WebappLoader webappLoader = new WebappLoader();
             webappLoader.setDelegate(getDelegate());
             setLoader(webappLoader);

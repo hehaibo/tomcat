@@ -38,6 +38,7 @@ public class LimitLatch {
         public Sync() {
         }
 
+        //一旦当前连接数大于了设置的最大连接数，那么就会返回-1表示将此线程放入AQS队列中等待
         @Override
         protected int tryAcquireShared(int ignored) {
             long newCount = count.incrementAndGet();
@@ -58,8 +59,11 @@ public class LimitLatch {
     }
 
     private final Sync sync;
+    //当前连接数
     private final AtomicLong count;
+    //最大连接数
     private volatile long limit;
+    //是否释放连接
     private volatile boolean released = false;
 
     /**
@@ -108,6 +112,7 @@ public class LimitLatch {
     /**
      * Acquires a shared latch if one is available or waits for one if no shared
      * latch is current available.
+     * <br>调用LimitLatch的countUpOrAwait方法来判断是否能获取连接
      * @throws InterruptedException If the current thread is interrupted
      */
     public void countUpOrAwait() throws InterruptedException {

@@ -37,12 +37,16 @@ import org.apache.tomcat.util.res.StringManager;
  */
 public abstract class ValveBase extends LifecycleMBeanBase implements Contained, Valve {
 
+	/**
+	 * 国际化管理器，支持多国语言
+	 */
     protected static final StringManager sm = StringManager.getManager(ValveBase.class);
 
 
     //------------------------------------------------------ Constructor
 
     public ValveBase() {
+    	//默认是不支持异步执行
         this(false);
     }
 
@@ -55,24 +59,28 @@ public abstract class ValveBase extends LifecycleMBeanBase implements Contained,
     //------------------------------------------------------ Instance Variables
 
     /**
+     * 是否异步执行
      * Does this valve support Servlet 3+ async requests?
      */
     protected boolean asyncSupported;
 
 
     /**
+     * 关联的容器对象
      * The Container whose pipeline this Valve is a component of.
      */
     protected Container container = null;
 
 
     /**
+     * 日志组件
      * Container log
      */
     protected Log containerLog = null;
 
 
     /**
+     * 下个阀门
      * The next Valve in the pipeline this Valve is a component of.
      */
     protected Valve next = null;
@@ -81,6 +89,7 @@ public abstract class ValveBase extends LifecycleMBeanBase implements Contained,
     //-------------------------------------------------------------- Properties
 
     /**
+     * 返回关联的容器对象
      * Return the Container with which this Valve is associated, if any.
      */
     @Override
@@ -90,6 +99,7 @@ public abstract class ValveBase extends LifecycleMBeanBase implements Contained,
 
 
     /**
+     * 设置关联的容器对象
      * Set the Container with which this Valve is associated, if any.
      *
      * @param container The new associated container
@@ -99,19 +109,20 @@ public abstract class ValveBase extends LifecycleMBeanBase implements Contained,
         this.container = container;
     }
 
-
+    //是否支持异步
     @Override
     public boolean isAsyncSupported() {
         return asyncSupported;
     }
 
-
+    //设置是否异步执行
     public void setAsyncSupported(boolean asyncSupported) {
         this.asyncSupported = asyncSupported;
     }
 
 
     /**
+     * 获得下一个阀门
      * Return the next Valve in this pipeline, or <code>null</code> if this
      * is the last Valve in the pipeline.
      */
@@ -122,6 +133,7 @@ public abstract class ValveBase extends LifecycleMBeanBase implements Contained,
 
 
     /**
+     * 设置下一个阀门
      * Set the Valve that follows this one in the pipeline it is part of.
      *
      * @param valve The new next valve
@@ -135,6 +147,7 @@ public abstract class ValveBase extends LifecycleMBeanBase implements Contained,
     //---------------------------------------------------------- Public Methods
 
     /**
+     * 后台执行逻辑，主要在类加载上下文中使用到，这里没有实现
      * Execute a periodic task, such as reloading, etc. This method will be
      * invoked inside the classloading context of this container. Unexpected
      * throwables will be caught and logged.
@@ -145,14 +158,18 @@ public abstract class ValveBase extends LifecycleMBeanBase implements Contained,
     }
 
 
+    //初始化逻辑
     @Override
     protected void initInternal() throws LifecycleException {
+    	//调用父类的初始化方法
         super.initInternal();
+        //获得容器的日志组件为阀门的日志组件
         containerLog = getContainer().getLogger();
     }
 
 
     /**
+     * 启动逻辑，该方法实现为 LifecycleBase#startInternal
      * Start this component and implement the requirements
      * of {@link org.apache.catalina.util.LifecycleBase#startInternal()}.
      *
@@ -161,11 +178,13 @@ public abstract class ValveBase extends LifecycleMBeanBase implements Contained,
      */
     @Override
     protected synchronized void startInternal() throws LifecycleException {
-        setState(LifecycleState.STARTING);
+        //设置状态为 STARTING 状态
+    	setState(LifecycleState.STARTING);
     }
 
 
     /**
+     * 停止逻辑，该方法实现为 LifecycleBase#stopInternal
      * Stop this component and implement the requirements
      * of {@link org.apache.catalina.util.LifecycleBase#stopInternal()}.
      *
@@ -174,11 +193,13 @@ public abstract class ValveBase extends LifecycleMBeanBase implements Contained,
      */
     @Override
     protected synchronized void stopInternal() throws LifecycleException {
-        setState(LifecycleState.STOPPING);
+        //设置状态为 STOPPING
+    	setState(LifecycleState.STOPPING);
     }
 
 
     /**
+     * 重写toString方法 格式为[${containerName}]
      * Return a String rendering of this object.
      */
     @Override
@@ -196,13 +217,14 @@ public abstract class ValveBase extends LifecycleMBeanBase implements Contained,
 
 
     // -------------------- JMX and Registration  --------------------
-
+    //设置获取MBean对象的keyProperties，格式如：a=b,c=d,e=f...
     @Override
     public String getObjectNameKeyProperties() {
         StringBuilder name = new StringBuilder("type=Valve");
 
+        //获得容器
         Container container = getContainer();
-
+        //获得容器MBean的key属性
         name.append(container.getMBeanKeyProperties());
 
         int seq = 0;
@@ -244,6 +266,7 @@ public abstract class ValveBase extends LifecycleMBeanBase implements Contained,
     }
 
 
+    //获取所属Domain，从container获取
     @Override
     public String getDomainInternal() {
         Container c = getContainer();

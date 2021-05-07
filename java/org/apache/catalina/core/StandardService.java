@@ -419,18 +419,22 @@ public class StandardService extends LifecycleMBeanBase implements Service {
         // Start our defined Container first
         if (engine != null) {
             synchronized (engine) {
+            	//启动容器
                 engine.start();
             }
         }
 
         synchronized (executors) {
             for (Executor executor: executors) {
+            	//启动线程池
                 executor.start();
             }
         }
-
+        
+        //启动MapperListener
         mapperListener.start();
 
+        //启动连接器
         // Start our defined Connectors second
         synchronized (connectorsLock) {
             for (Connector connector: connectors) {

@@ -33,12 +33,14 @@ import java.util.Set;
  * will always be executed last.  Other Valves will be executed in the order
  * that they were added, before the basic Valve is executed.</p>
  *
+ * 管道
  * @author Craig R. McClanahan
  * @author Peter Donald
  */
 public interface Pipeline {
 
     /**
+     * 获得基础阀门
      * @return the Valve instance that has been distinguished as the basic
      * Valve for this Pipeline (if any).
      */
@@ -46,6 +48,7 @@ public interface Pipeline {
 
 
     /**
+     * 设置基础阀门
      * <p>Set the Valve instance that has been distinguished as the basic
      * Valve for this Pipeline (if any).  Prior to setting the basic Valve,
      * the Valve's <code>setContainer()</code> will be called, if it
@@ -61,6 +64,7 @@ public interface Pipeline {
 
 
     /**
+     * 添加一个阀门到关联的容器的Pipeline的末尾
      * <p>Add a new Valve to the end of the pipeline associated with this
      * Container.  Prior to adding the Valve, the Valve's
      * <code>setContainer()</code> method will be called, if it implements
@@ -87,6 +91,7 @@ public interface Pipeline {
 
 
     /**
+     * 获得关联容器的Pileline的所有阀门，没有返回为空
      * @return the set of Valves in the pipeline associated with this
      * Container, including the basic Valve (if any).  If there are no
      * such Valves, a zero-length array is returned.
@@ -95,6 +100,7 @@ public interface Pipeline {
 
 
     /**
+     * 删除阀门 <br>
      * Remove the specified Valve from the pipeline associated with this
      * Container, if it is found; otherwise, do nothing.  If the Valve is
      * found and removed, the Valve's <code>setContainer(null)</code> method
@@ -110,6 +116,7 @@ public interface Pipeline {
 
 
     /**
+     * 获得首个阀门<br>
      * @return the Valve instance that has been distinguished as the basic
      * Valve for this Pipeline (if any).
      */
@@ -117,6 +124,7 @@ public interface Pipeline {
 
 
     /**
+     * 管道内阀门是否都是异步执行<br>
      * Returns true if all the valves in this pipeline support async, false otherwise
      * @return true if all the valves in this pipeline support async, false otherwise
      */
@@ -124,12 +132,14 @@ public interface Pipeline {
 
 
     /**
+     * 获得管道所属的容器<br>
      * @return the Container with which this Pipeline is associated.
      */
     public Container getContainer();
 
 
     /**
+     * 设置管道所属的容器<br>
      * Set the Container with which this Pipeline is associated.
      *
      * @param container The new associated container
@@ -138,6 +148,7 @@ public interface Pipeline {
 
 
     /**
+     * 查询非异步执行的所有阀门，并放到Set<String>中 result参数不能为空<br>
      * Identifies the Valves, if any, in this Pipeline that do not support
      * async.
      *

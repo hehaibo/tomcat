@@ -62,6 +62,7 @@ public final class Bootstrap {
 
     static {
         // Will always be non-null
+    	//获得用户当前目录
         String userDir = System.getProperty("user.dir");
 
         // Home first
@@ -141,12 +142,15 @@ public final class Bootstrap {
 
     private void initClassLoaders() {
         try {
+        	//创建tomcat通用加载器 父类加载加载为 sun.misc.Launcher$AppClassLoader
             commonLoader = createClassLoader("common", null);
             if (commonLoader == null) {
                 // no config file, default to this loader - we might be in a 'single' env.
                 commonLoader = this.getClass().getClassLoader();
             }
+            //catalinaLoader 父加载器为commonLoader
             catalinaLoader = createClassLoader("server", commonLoader);
+            //sharedLoader 父加载器为commonLoader
             sharedLoader = createClassLoader("shared", commonLoader);
         } catch (Throwable t) {
             handleThrowable(t);
@@ -243,26 +247,33 @@ public final class Bootstrap {
 
 
     /**
+     * 初始化方法
      * Initialize daemon.
      * @throws Exception Fatal initialization error
      */
     public void init() throws Exception {
 
+    	//初始化类加载器
         initClassLoaders();
 
+        //设置线程上下文的类加载器为catalinaLoader
         Thread.currentThread().setContextClassLoader(catalinaLoader);
 
+        //catalinaLoader加载tomcat源代码里面的各个专用类
         SecurityClassLoad.securityClassLoad(catalinaLoader);
 
         // Load our startup class and call its process() method
         if (log.isDebugEnabled())
             log.debug("Loading startup class");
+        //catalinaLoader加载 org.apache.catalina.startup.Catalina类
         Class<?> startupClass = catalinaLoader.loadClass("org.apache.catalina.startup.Catalina");
+        //获得默认构造函数创建实例
         Object startupInstance = startupClass.getConstructor().newInstance();
 
         // Set the shared extensions class loader
         if (log.isDebugEnabled())
             log.debug("Setting startup class properties");
+        //获取setParentClassLoader方法 设置 父加载起 为 sharedLoader 加载器
         String methodName = "setParentClassLoader";
         Class<?> paramTypes[] = new Class[1];
         paramTypes[0] = Class.forName("java.lang.ClassLoader");
@@ -335,6 +346,7 @@ public final class Bootstrap {
      */
     public void start() throws Exception {
         if (catalinaDaemon == null) {
+        	//调用初始化方法 初始化类加载器和Catalina对象
             init();
         }
 
@@ -433,12 +445,20 @@ public final class Bootstrap {
      * @param args Command line arguments to be processed
      */
     public static void main(String args[]) {
-
+    	//-Dcom.sun.management.jmxremote=true                 相关 JMX 代理侦听开关
+    	//-Djava.rmi.server.hostname                                     服务器端的IP
+    	//-Dcom.sun.management.jmxremote.port=8888             相关 JMX 代理侦听请求的端口
+    	//-Dcom.sun.management.jmxremote.ssl=false              指定是否使用 SSL 通讯
+    	//-Dcom.sun.management.jmxremote.authenticate=false     指定是否需要密码验证
+    	
+    	//-Dcom.sun.management.jmxremote=true -Djava.rmi.server.hostname -Dcom.sun.management.jmxremote.port=8888 -Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote.authenticate=false
+    			
         synchronized (daemonLock) {
             if (daemon == null) {
                 // Don't set daemon until init() has completed
                 Bootstrap bootstrap = new Bootstrap();
                 try {
+                	//初始化tomcat类加载器和Catalina对象
                     bootstrap.init();
                 } catch (Throwable t) {
                     handleThrowable(t);
@@ -468,8 +488,11 @@ public final class Bootstrap {
                 args[args.length - 1] = "stop";
                 daemon.stop();
             } else if (command.equals("start")) {
+            	//调用 Catalina 的setAwait方法
                 daemon.setAwait(true);
+                //调用 Catalina 的load方法
                 daemon.load(args);
+                //调用 Catalina 的start方法
                 daemon.start();
                 if (null == daemon.getServer()) {
                     System.exit(1);

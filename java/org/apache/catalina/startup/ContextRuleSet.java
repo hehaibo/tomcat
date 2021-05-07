@@ -101,7 +101,9 @@ public class ContextRuleSet extends RuleSetBase {
      */
     @Override
     public void addRuleInstances(Digester digester) {
-
+    	//1.创建Context实例
+    	//Context的解析会根据create属性的不同而有所区别，这主要是由于Context来源于多处。
+    	//通过server.xml配置Context时，create是true，因此需要创建Context实例；而通过HostConfig自动创建Context时，create为false，此时仅需要解析节点即可。
         if (create) {
             digester.addObjectCreate(prefix + "Context",
                     "org.apache.catalina.core.StandardContext", "className");
@@ -120,6 +122,8 @@ public class ContextRuleSet extends RuleSetBase {
                                 "org.apache.catalina.Container");
         }
 
+        //2.为Context添加生命周期监听器
+        //具体监听器类由属性className指定。
         digester.addObjectCreate(prefix + "Context/Listener",
                                  null, // MUST be specified in the element
                                  "className");
@@ -128,6 +132,8 @@ public class ContextRuleSet extends RuleSetBase {
                             "addLifecycleListener",
                             "org.apache.catalina.LifecycleListener");
 
+        //3.为Context指定类加载器
+        //默认为org.apache.catalina.loader.WebappLoader,通过className属性可以指定自己的实现类。
         digester.addObjectCreate(prefix + "Context/Loader",
                             "org.apache.catalina.loader.WebappLoader",
                             "className");
@@ -136,6 +142,8 @@ public class ContextRuleSet extends RuleSetBase {
                             "setLoader",
                             "org.apache.catalina.Loader");
 
+        //4.为Context添加会话管理器
+        //默认实现为StandardManager，同时为管理器指定会话存储方式和会话标识生成器。Context提供了多种会话管理方式。
         digester.addObjectCreate(prefix + "Context/Manager",
                                  "org.apache.catalina.session.StandardManager",
                                  "className");
@@ -160,6 +168,8 @@ public class ContextRuleSet extends RuleSetBase {
                             "setSessionIdGenerator",
                             "org.apache.catalina.SessionIdGenerator");
 
+        //5.为Context添加初始化参数
+        //通过该配置，为Context添加初始化参数。
         digester.addObjectCreate(prefix + "Context/Parameter",
                                  "org.apache.tomcat.util.descriptor.web.ApplicationParameter");
         digester.addSetProperties(prefix + "Context/Parameter");
@@ -167,6 +177,7 @@ public class ContextRuleSet extends RuleSetBase {
                             "addApplicationParameter",
                             "org.apache.tomcat.util.descriptor.web.ApplicationParameter");
 
+        //6.为Context添加安全配置以及web资源配置
         digester.addRuleSet(new RealmRuleSet(prefix + "Context/"));
 
         digester.addObjectCreate(prefix + "Context/Resources",
@@ -201,13 +212,21 @@ public class ContextRuleSet extends RuleSetBase {
                             "addPostResources",
                             "org.apache.catalina.WebResourceSet");
 
-
+        //7.为Context添加资源连接
         digester.addObjectCreate(prefix + "Context/ResourceLink",
                 "org.apache.tomcat.util.descriptor.web.ContextResourceLink");
         digester.addSetProperties(prefix + "Context/ResourceLink");
         digester.addRule(prefix + "Context/ResourceLink",
                 new SetNextNamingRule("addResourceLink",
                         "org.apache.tomcat.util.descriptor.web.ContextResourceLink"));
+
+        //8.为Context添加Valve
+        //为Context添加拦截器Valve。
+        //WatchedResource标签用于为Context添加监视资源，当这些资源发生变更时，Web应用将会被重新加载，默认为WEB-INF/web.xml
+        //WrapperLifecycle标签用于为Context添加一个生命周期监听类，此类的实例并非添加到Context上，而是添加到Context包含的Wrapper上。
+        //WrapperListener标签用于为Context添加一个容器监听类，此类同样添加到Wrapper上。
+        //JarScanner标签用于为Context添加一个Jar扫描器。JarScanner扫描Web应用和类加载层级的Jar包。
+
 
         digester.addObjectCreate(prefix + "Context/Valve",
                                  null, // MUST be specified in the element
@@ -242,6 +261,7 @@ public class ContextRuleSet extends RuleSetBase {
                             "setJarScanFilter",
                             "org.apache.tomcat.JarScanFilter");
 
+        //10.为Context添加Cookie处理器
         digester.addObjectCreate(prefix + "Context/CookieProcessor",
                                  "org.apache.tomcat.util.http.Rfc6265CookieProcessor",
                                  "className");

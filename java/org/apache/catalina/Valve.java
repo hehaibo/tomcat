@@ -32,7 +32,7 @@ import org.apache.catalina.connector.Response;
  * <b>HISTORICAL NOTE</b>:  The "Valve" name was assigned to this concept
  * because a valve is what you use in a real world pipeline to control and/or
  * modify flows through it.
- *
+ * 阀门接口
  * @author Craig R. McClanahan
  * @author Gunnar Rjnning
  * @author Peter Donald
@@ -43,14 +43,16 @@ public interface Valve {
     //-------------------------------------------------------------- Properties
 
     /**
+     * 获得下一个阀门
      * @return the next Valve in the pipeline containing this Valve, if any.
      */
     public Valve getNext();
 
 
     /**
+     * 设置下一个阀门
      * Set the next Valve in the pipeline containing this Valve.
-     *
+     * 
      * @param valve The new next valve, or <code>null</code> if none
      */
     public void setNext(Valve valve);
@@ -60,6 +62,9 @@ public interface Valve {
 
 
     /**
+     * 后台执行逻辑，主要在类加载上下文中使用到。在StandardHost 扫描webapps目录时会执行，
+     * 例如AccessLogValve 就实现
+     *
      * Execute a periodic task, such as reloading, etc. This method will be
      * invoked inside the classloading context of this container. Unexpected
      * throwables will be caught and logged.
@@ -105,7 +110,7 @@ public interface Valve {
      *     specified Response after the <code>getNext().invoke()</code> method has
      *     returned.
      * </ul>
-     *
+     * 执行业务逻辑
      * @param request The servlet request to be processed
      * @param response The servlet response to be created
      *
@@ -117,6 +122,9 @@ public interface Valve {
     public void invoke(Request request, Response response)
         throws IOException, ServletException;
 
-
+    /**
+     * 是否支持异步执行
+     * @return
+     */
     public boolean isAsyncSupported();
 }

@@ -83,6 +83,8 @@ public class HostRuleSet extends RuleSetBase {
     @Override
     public void addRuleInstances(Digester digester) {
 
+    	//1.创建Host实例
+    	//创建Host实例，通过addChild()方法添加到Engine上。同时还为Host添加了一个生命周期监听器HostConfig，同样，该监听器由Catalina默认添加，而不是server.xml配置。
         digester.addObjectCreate(prefix + "Host",
                                  "org.apache.catalina.core.StandardHost",
                                  "className");
@@ -101,6 +103,9 @@ public class HostRuleSet extends RuleSetBase {
                                "addAlias", 0);
 
         //Cluster configuration start
+        // 2.为Host添加集群
+        //配置集群，集群的配置即可以在Engine级别，也可以在Host级别。
+
         digester.addObjectCreate(prefix + "Host/Cluster",
                                  null, // MUST be specified in the element
                                  "className");
@@ -110,6 +115,7 @@ public class HostRuleSet extends RuleSetBase {
                             "org.apache.catalina.Cluster");
         //Cluster configuration end
 
+        //3.为Host添加生命周期管理
         digester.addObjectCreate(prefix + "Host/Listener",
                                  null, // MUST be specified in the element
                                  "className");
@@ -119,7 +125,9 @@ public class HostRuleSet extends RuleSetBase {
                             "org.apache.catalina.LifecycleListener");
 
         digester.addRuleSet(new RealmRuleSet(prefix + "Host/"));
-
+        
+        //4.为Host添加安全配置
+        //为Host添加安全配置以及拦截器Valve，具体拦截器类由className属性指定。Catalina为Host默认添加的拦截器为AccessLogValve，即用于记录访问日志。
         digester.addObjectCreate(prefix + "Host/Valve",
                                  null, // MUST be specified in the element
                                  "className");
